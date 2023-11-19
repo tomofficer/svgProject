@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { keyframes } from '@emotion/react';
 import {
   Box,
   VStack,
@@ -15,17 +16,27 @@ import {
   Center,
   Tooltip,
   IconButton,
+  Image,
 } from '@chakra-ui/react';
+import '../src/App.css';
 import { QuestionIcon } from '@chakra-ui/icons';
+import logo from '../src/imgAssets/lectralogo.png';
 import SvgShape from './SvgShape';
 import Typewriter from 'react-typewriter';
+
+//Pulse Animation Keyframes
+const pulseAnimation = keyframes`
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+`;
 
 const InteractiveSvg = () => {
   //State Variables
   const [width, setWidth] = useState(100); // Default width
   const [height, setHeight] = useState(100); // Default height
   const [position, setPosition] = useState({ x: 200, y: 200 }); // Default position
-  const [color, setColor] = useState('lightblue'); //Default color
+  const [color, setColor] = useState('#03fcc2'); //Default color
   const [isDragging, setIsDragging] = useState(false); //Drag state
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 }); //Default drag
   const [shape, setShape] = useState('rect'); // Default shape
@@ -206,23 +217,57 @@ const InteractiveSvg = () => {
   return (
     <Box onMouseMove={onDrag} onMouseUp={stopDrag} onMouseLeave={stopDrag}>
       <VStack
-        align='left'
+        backdropFilter='blur(10px)'
+        align='center'
         spacing='20px'
-        border='2px solid black'
+        border='3px solid #03fcc2'
         px='50px'
         py='50px'
         borderRadius='40px'>
-        <HStack>
-          <Button onClick={moveLeft}>Move Left</Button>
-          <Button onClick={moveRight}>Move Right</Button>
-          <Button onClick={moveUp}>Move Up</Button>
-          <Button onClick={moveDown}>Move Down</Button>
+        <Image src={logo} maxW='200px' />
+        <HStack mb='20px'>
+          <Button
+            onClick={moveLeft}
+            bg='none'
+            border='2px solid #03fcc2'
+            borderRadius='15px'
+            color='white'
+            _hover={{ bg: 'none', transform: 'scale(0.97)' }}>
+            Move Left
+          </Button>
+          <Button
+            onClick={moveRight}
+            bg='none'
+            border='2px solid #03fcc2'
+            borderRadius='15px'
+            color='white'
+            _hover={{ bg: 'none', transform: 'scale(0.97)' }}>
+            Move Right
+          </Button>
+          <Button
+            onClick={moveUp}
+            bg='none'
+            border='2px solid #03fcc2'
+            borderRadius='15px'
+            color='white'
+            _hover={{ bg: 'none', transform: 'scale(0.97)' }}>
+            Move Up
+          </Button>
+          <Button
+            onClick={moveDown}
+            bg='none'
+            border='2px solid #03fcc2'
+            borderRadius='15px'
+            color='white'
+            _hover={{ bg: 'none', transform: 'scale(0.97)' }}>
+            Move Down
+          </Button>
         </HStack>
 
         <Center>
           <HStack>
             <label>
-              Width:
+              <span style={{ marginRight: '10px' }}>Width:</span>
               <input
                 type='range'
                 min='50'
@@ -232,7 +277,8 @@ const InteractiveSvg = () => {
               />
             </label>
             <label>
-              Height:
+              <span style={{ marginRight: '10px' }}>Height:</span>
+
               <input
                 type='range'
                 min='50'
@@ -244,34 +290,40 @@ const InteractiveSvg = () => {
           </HStack>
         </Center>
 
-        <label>
-          <span style={{ marginRight: '10px' }}>X Position:</span>
-          <input
-            type='number'
-            name='x'
-            value={position.x}
-            onChange={handlePositionChange}
-            style={{
-              background: 'none',
-              border: '2px solid black',
-              borderRadius: '68px',
-            }}
-          />
-        </label>
-        <label>
-          <span style={{ marginRight: '10px' }}>Y Position:</span>
-          <input
-            type='number'
-            name='y'
-            value={position.y}
-            onChange={handlePositionChange}
-            style={{
-              background: 'none',
-              border: '2px solid black',
-              borderRadius: '68px',
-            }}
-          />
-        </label>
+        <HStack>
+          <label>
+            <span style={{ marginRight: '10px' }}>X Position:</span>
+            <input
+              type='number'
+              name='x'
+              value={position.x}
+              onChange={handlePositionChange}
+              style={{
+                background: 'none',
+                border: '2px solid #03fcc2',
+                borderRadius: '15px',
+                width: '100px',
+                padding: '5px',
+              }}
+            />
+          </label>
+          <label>
+            <span style={{ marginRight: '10px' }}>Y Position:</span>
+            <input
+              type='number'
+              name='y'
+              value={position.y}
+              onChange={handlePositionChange}
+              style={{
+                background: 'none',
+                border: '2px solid #03fcc2',
+                borderRadius: '15px',
+                width: '100px',
+                padding: '5px',
+              }}
+            />
+          </label>
+        </HStack>
 
         <Center>
           <HStack>
@@ -283,8 +335,9 @@ const InteractiveSvg = () => {
                 onChange={handleColorChange}
                 style={{
                   background: 'none',
-                  border: '2px solid black',
-                  borderRadius: '68px',
+                  border: '2px solid #03fcc2',
+                  borderRadius: '15px',
+                  padding: '5px',
                 }}
               />
             </label>
@@ -295,8 +348,9 @@ const InteractiveSvg = () => {
                 onChange={(e) => setShape(e.target.value)}
                 style={{
                   background: 'none',
-                  border: '2px solid black',
-                  borderRadius: '68px',
+                  border: '2px solid #03fcc2',
+                  borderRadius: '15px',
+                  padding: '5px',
                 }}>
                 <option value='rect'>Rectangle</option>
                 <option value='circle'>Circle</option>
@@ -307,15 +361,28 @@ const InteractiveSvg = () => {
           </HStack>
         </Center>
 
-        <Popover onClose={resetTypewriter}>
+        <Popover onOpen={resetTypewriter} onClose={resetTypewriter}>
           <PopoverTrigger>
-            <Button>Tell Me Where To Move!</Button>
+            <Button
+              mt='30px'
+              py='20px'
+              px='60px'
+              bg='none'
+              borderRadius='15px'
+              color='white'
+              border='3px solid #03fcc2'
+              _hover={{ bg: 'none' }}
+              css={{
+                animation: `${pulseAnimation} 3.5s ease-in-out infinite`,
+              }}>
+              Tell Me Where To Move!
+            </Button>
           </PopoverTrigger>
           <PopoverContent>
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverBody color='black'>
-              <Typewriter key={typewriterKey} typing={1}>
+              <Typewriter key={typewriterKey} typing={2}>
                 {
                   'Tell me what to do - you can say something like: Move up, Move right, Move left, Move down...'
                 }
