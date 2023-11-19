@@ -1,6 +1,20 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Box, VStack, HStack, Button } from '@chakra-ui/react';
+import {
+  Box,
+  VStack,
+  HStack,
+  Button,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverBody,
+  Input,
+  Text,
+} from '@chakra-ui/react';
 import SvgShape from './SvgShape';
+import Typewriter from 'react-typewriter';
 
 const InteractiveSvg = () => {
   //State Variables
@@ -84,7 +98,7 @@ const InteractiveSvg = () => {
     setIsDragging(false);
   };
 
-  //Click Handlers
+  //Move Handlers
   const moveLeft = () => {
     setPosition((prevPosition) => ({
       ...prevPosition,
@@ -111,6 +125,53 @@ const InteractiveSvg = () => {
       ...prevPosition,
       y: prevPosition.y + 50,
     }));
+  };
+
+  //Text Command Options
+  const movementOptions = ['Move Left', 'Move Right', 'Move Up', 'Move Down'];
+
+  //Text Command Handler
+  const handleMovementOption = (option) => {
+    switch (option) {
+      case 'Move Left':
+        moveLeft();
+        break;
+      case 'Move Right':
+        moveRight();
+        break;
+      case 'Move Up':
+        moveUp();
+        break;
+      case 'Move Down':
+        moveDown();
+        break;
+      default:
+        break;
+    }
+  };
+
+  //Input Value
+  const [inputValue, setInputValue] = useState('');
+
+  //Input Error Handler
+  const [showError, setShowError] = useState(false);
+
+  //Input Change Handler
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+    if (showError) {
+      setShowError(false); // Hide error message when user starts typing again
+    }
+  };
+
+  //Input Submit Handler
+  const handleInputSubmit = () => {
+    if (movementOptions.includes(inputValue)) {
+      handleMovementOption(inputValue);
+      setInputValue('');
+    } else {
+      setShowError(true);
+    }
   };
 
   return (
@@ -205,6 +266,37 @@ const InteractiveSvg = () => {
             <option value='line'>Line</option>
           </select>
         </label>
+
+        <Popover>
+          <PopoverTrigger>
+            <Button>Move Options</Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverBody color='black'>
+              <Typewriter typing={1}>
+                {
+                  'Tell me what to do - you can say something like: Move Up, Move Right, Move Left, Move Down...'
+                }
+              </Typewriter>
+              <Input
+                value={inputValue}
+                onChange={handleInputChange}
+                onKeyPress={(event) => {
+                  if (event.key === 'Enter') {
+                    handleInputSubmit();
+                  }
+                }}
+                isInvalid={showError}
+                errorBorderColor='red.300'
+              />
+              {showError && (
+                <Text color='red.500'>Sorry, I didn't recognize that...</Text>
+              )}
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
       </VStack>
 
       {/* <svg
