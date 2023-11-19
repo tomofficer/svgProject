@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Box, VStack } from '@chakra-ui/react';
+import { Box, VStack, HStack, Button } from '@chakra-ui/react';
 import SvgShape from './SvgShape';
 
 const InteractiveSvg = () => {
@@ -59,6 +59,7 @@ const InteractiveSvg = () => {
     setColor(e.target.value);
   };
 
+  //Drag Handlers
   const startDrag = (e) => {
     setDragStart({
       x: e.clientX - position.x,
@@ -83,14 +84,50 @@ const InteractiveSvg = () => {
     setIsDragging(false);
   };
 
+  //Click Handlers
+  const moveLeft = () => {
+    setPosition((prevPosition) => ({
+      ...prevPosition,
+      x: prevPosition.x - 50,
+    }));
+  };
+
+  const moveRight = () => {
+    setPosition((prevPosition) => ({
+      ...prevPosition,
+      x: prevPosition.x + 50,
+    }));
+  };
+
+  const moveUp = () => {
+    setPosition((prevPosition) => ({
+      ...prevPosition,
+      y: prevPosition.y - 50,
+    }));
+  };
+
+  const moveDown = () => {
+    setPosition((prevPosition) => ({
+      ...prevPosition,
+      y: prevPosition.y + 50,
+    }));
+  };
+
   return (
     <Box onMouseMove={onDrag} onMouseUp={stopDrag} onMouseLeave={stopDrag}>
       <VStack
+        align='left'
         spacing='20px'
         border='2px solid black'
         px='50px'
         py='50px'
         borderRadius='40px'>
+        <HStack>
+          <Button onClick={moveLeft}>Move Left</Button>
+          <Button onClick={moveRight}>Move Right</Button>
+          <Button onClick={moveUp}>Move Up</Button>
+          <Button onClick={moveDown}>Move Down</Button>
+        </HStack>
         <label>
           Width:
           <input
@@ -153,7 +190,7 @@ const InteractiveSvg = () => {
           />
         </label>
         <label>
-          Shape:
+          <span style={{ marginRight: '10px' }}>Shape:</span>
           <select
             value={shape}
             onChange={(e) => setShape(e.target.value)}
