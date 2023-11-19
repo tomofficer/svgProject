@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Box, VStack } from '@chakra-ui/react';
 
 const InteractiveSvg = () => {
+  //State Variables
   const [width, setWidth] = useState(100); // Default width
   const [height, setHeight] = useState(100); // Default height
-  const [position, setPosition] = useState({ x: 50, y: 50 }); // Default position
+  const [position, setPosition] = useState({ x: 200, y: 200 }); // Default position
+  const [color, setColor] = useState('lightblue'); //Default color
+  const [isDragging, setIsDragging] = useState(false); //Drag state
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 }); //Default drag
 
   const handleWidthChange = (e) => {
     setWidth(e.target.value);
@@ -18,8 +22,36 @@ const InteractiveSvg = () => {
     setPosition({ ...position, [e.target.name]: e.target.value });
   };
 
+  const handleColorChange = (e) => {
+    setColor(e.target.value);
+  };
+
+  const startDrag = (e) => {
+    setDragStart({
+      x: e.clientX - position.x,
+      y: e.clientY - position.y,
+    });
+    setIsDragging(true);
+  };
+
+  const onDrag = useCallback(
+    (e) => {
+      if (isDragging) {
+        setPosition({
+          x: e.clientX - dragStart.x,
+          y: e.clientY - dragStart.y,
+        });
+      }
+    },
+    [isDragging, dragStart]
+  );
+
+  const stopDrag = () => {
+    setIsDragging(false);
+  };
+
   return (
-    <Box>
+    <Box onMouseMove={onDrag} onMouseUp={stopDrag} onMouseLeave={stopDrag}>
       <VStack
         spacing='20px'
         border='2px solid black'
@@ -74,10 +106,33 @@ const InteractiveSvg = () => {
             }}
           />
         </label>
+        <label>
+          <span style={{ marginRight: '10px' }}>Color:</span>
+          <input
+            type='color'
+            value={color}
+            onChange={handleColorChange}
+            style={{
+              background: 'none',
+              border: '2px solid black',
+              borderRadius: '68px',
+              padding: '0px',
+            }}
+          />
+        </label>
       </VStack>
 
-      <svg style={{ position: 'absolute', left: position.x, top: position.y }}>
-        <rect width={width} height={height} fill='lightblue' />
+      <svg
+        style={{
+          position: 'absolute',
+          left: position.x,
+          top: position.y,
+          cursor: 'move',
+        }}
+        onMouseDown={startDrag}
+        width={width}
+        height={height}>
+        <rect width={width} height={height} fill={color} />
       </svg>
     </Box>
   );
