@@ -1,25 +1,30 @@
 import React from 'react';
 import { Box, Center, VStack, Image } from '@chakra-ui/react';
 import InteractiveSvg from './InteractiveSvg';
-import logo from '../src/imgAssets/lectralogo.png';
+import bg from '../src/imgAssets/bg.jpg';
 
 const Home = () => {
   return (
     <>
-      <Box
-        w='100vw'
-        h='100vh'
-        bg='gray.500'
-        color='white'
-        display='flex'
-        justifyContent='center'
-        alignItems='center'>
-        <Center>
-          {/* <Image mt='100px' mb='100px' src={logo} pos='absolute' /> */}
-          <VStack>
-            <InteractiveSvg />
-          </VStack>
-        </Center>
+      <Box bg='black'>
+        <Box
+          w='100vw'
+          h='100vh'
+          backgroundImage={bg}
+          backgroundSize='cover'
+          opacity='75%'
+          backgroundPosition='center'
+          backgroundRepeat='no-repeat'
+          color='white'
+          display='flex'
+          justifyContent='center'
+          alignItems='center'>
+          <Center>
+            <VStack>
+              <InteractiveSvg />
+            </VStack>
+          </Center>
+        </Box>
       </Box>
     </>
   );

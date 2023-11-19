@@ -66,7 +66,7 @@ const InteractiveSvg = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowHelpIcon(true);
-    }, 10000); // 10 seconds
+    }, 1000); // 10 seconds
 
     return () => clearTimeout(timer); // Cleanup timeout
   }, []);
@@ -195,6 +195,12 @@ const InteractiveSvg = () => {
   // Increment key to trigger re-render
   const resetTypewriter = () => {
     setTypewriterKey((prevKey) => prevKey + 1);
+  };
+
+  // Calculate the position of the "?" icon
+  const iconPosition = {
+    left: position.x + width - 10, // Adjust based on the current width of the SVG
+    top: position.y - 10, // Adjust based on the current position of the SVG
   };
 
   return (
@@ -342,7 +348,7 @@ const InteractiveSvg = () => {
         startDrag={startDrag}
       />
 
-      {showHelpIcon && (
+      {/* {!isDragging && (
         <Tooltip label='You can drag me!' placement='top' hasArrow>
           <IconButton
             aria-label='Help'
@@ -351,15 +357,15 @@ const InteractiveSvg = () => {
             bg='none'
             color='white'
             position='absolute'
-            left={position.x + width - 5} // Adjust these values as needed
-            top={position.y - 10}
+            left={iconPosition.left}
+            top={iconPosition.top}
             zIndex='tooltip' // Ensures the tooltip is above other elements
             _hover={{
               bg: 'none',
             }}
           />
         </Tooltip>
-      )}
+      )} */}
     </Box>
   );
 };
