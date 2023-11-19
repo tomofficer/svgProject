@@ -12,6 +12,7 @@ import {
   PopoverBody,
   Input,
   Text,
+  Center,
 } from '@chakra-ui/react';
 import SvgShape from './SvgShape';
 import Typewriter from 'react-typewriter';
@@ -128,21 +129,21 @@ const InteractiveSvg = () => {
   };
 
   //Text Command Options
-  const movementOptions = ['Move Left', 'Move Right', 'Move Up', 'Move Down'];
+  const movementOptions = ['Move left', 'Move right', 'Move up', 'Move down'];
 
   //Text Command Handler
   const handleMovementOption = (option) => {
     switch (option) {
-      case 'Move Left':
+      case 'Move left':
         moveLeft();
         break;
-      case 'Move Right':
+      case 'Move right':
         moveRight();
         break;
-      case 'Move Up':
+      case 'Move up':
         moveUp();
         break;
-      case 'Move Down':
+      case 'Move down':
         moveDown();
         break;
       default:
@@ -174,6 +175,14 @@ const InteractiveSvg = () => {
     }
   };
 
+  // Key for the Typewriter component
+  const [typewriterKey, setTypewriterKey] = useState(0);
+
+  // Increment key to trigger re-render
+  const resetTypewriter = () => {
+    setTypewriterKey((prevKey) => prevKey + 1);
+  };
+
   return (
     <Box onMouseMove={onDrag} onMouseUp={stopDrag} onMouseLeave={stopDrag}>
       <VStack
@@ -189,26 +198,32 @@ const InteractiveSvg = () => {
           <Button onClick={moveUp}>Move Up</Button>
           <Button onClick={moveDown}>Move Down</Button>
         </HStack>
-        <label>
-          Width:
-          <input
-            type='range'
-            min='50'
-            max='200'
-            value={width}
-            onChange={handleWidthChange}
-          />
-        </label>
-        <label>
-          Height:
-          <input
-            type='range'
-            min='50'
-            max='200'
-            value={height}
-            onChange={handleHeightChange}
-          />
-        </label>
+
+        <Center>
+          <HStack>
+            <label>
+              Width:
+              <input
+                type='range'
+                min='50'
+                max='200'
+                value={width}
+                onChange={handleWidthChange}
+              />
+            </label>
+            <label>
+              Height:
+              <input
+                type='range'
+                min='50'
+                max='200'
+                value={height}
+                onChange={handleHeightChange}
+              />
+            </label>
+          </HStack>
+        </Center>
+
         <label>
           <span style={{ marginRight: '10px' }}>X Position:</span>
           <input
@@ -237,47 +252,52 @@ const InteractiveSvg = () => {
             }}
           />
         </label>
-        <label>
-          <span style={{ marginRight: '10px' }}>Color:</span>
-          <input
-            type='color'
-            value={color}
-            onChange={handleColorChange}
-            style={{
-              background: 'none',
-              border: '2px solid black',
-              borderRadius: '68px',
-            }}
-          />
-        </label>
-        <label>
-          <span style={{ marginRight: '10px' }}>Shape:</span>
-          <select
-            value={shape}
-            onChange={(e) => setShape(e.target.value)}
-            style={{
-              background: 'none',
-              border: '2px solid black',
-              borderRadius: '68px',
-            }}>
-            <option value='rect'>Rectangle</option>
-            <option value='circle'>Circle</option>
-            <option value='ellipse'>Ellipse</option>
-            <option value='line'>Line</option>
-          </select>
-        </label>
 
-        <Popover>
+        <Center>
+          <HStack>
+            <label>
+              <span style={{ marginRight: '10px' }}>Color:</span>
+              <input
+                type='color'
+                value={color}
+                onChange={handleColorChange}
+                style={{
+                  background: 'none',
+                  border: '2px solid black',
+                  borderRadius: '68px',
+                }}
+              />
+            </label>
+            <label>
+              <span style={{ marginRight: '10px' }}>Shape:</span>
+              <select
+                value={shape}
+                onChange={(e) => setShape(e.target.value)}
+                style={{
+                  background: 'none',
+                  border: '2px solid black',
+                  borderRadius: '68px',
+                }}>
+                <option value='rect'>Rectangle</option>
+                <option value='circle'>Circle</option>
+                <option value='ellipse'>Ellipse</option>
+                <option value='line'>Line</option>
+              </select>
+            </label>
+          </HStack>
+        </Center>
+
+        <Popover onClose={resetTypewriter}>
           <PopoverTrigger>
-            <Button>Move Options</Button>
+            <Button>Tell Me Where To Move!</Button>
           </PopoverTrigger>
           <PopoverContent>
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverBody color='black'>
-              <Typewriter typing={1}>
+              <Typewriter key={typewriterKey} typing={1}>
                 {
-                  'Tell me what to do - you can say something like: Move Up, Move Right, Move Left, Move Down...'
+                  'Tell me what to do - you can say something like: Move up, Move right, Move left, Move down...'
                 }
               </Typewriter>
               <Input
