@@ -154,7 +154,13 @@ const InteractiveSvg = () => {
   };
 
   //Text Command Options
-  const movementOptions = ['Move left', 'Move right', 'Move up', 'Move down'];
+  const movementOptions = [
+    'Move left',
+    'Move right',
+    'Move up',
+    'Move down',
+    'Change color',
+  ];
 
   //Text Command Handler
   const handleMovementOption = (option) => {

@@ -7,9 +7,11 @@ import Footer from './Footer';
 function App() {
   return (
     <ChakraProvider>
-      <Header />
-      <Home />
-      <Footer />
+      <div className='app-fade-in'>
+        <Header />
+        <Home />
+        <Footer />
+      </div>
     </ChakraProvider>
   );
 }
