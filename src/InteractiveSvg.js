@@ -1,5 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Box, VStack } from '@chakra-ui/react';
+import SvgShape from './SvgShape';
 
 const InteractiveSvg = () => {
   //State Variables
@@ -9,7 +10,39 @@ const InteractiveSvg = () => {
   const [color, setColor] = useState('lightblue'); //Default color
   const [isDragging, setIsDragging] = useState(false); //Drag state
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 }); //Default drag
+  const [shape, setShape] = useState('rect'); // Default shape
 
+  //useEffect Variables
+  useEffect(() => {
+    const onDrag = (e) => {
+      if (isDragging) {
+        setPosition({
+          x: e.clientX - dragStart.x,
+          y: e.clientY - dragStart.y,
+        });
+      }
+    };
+
+    const handleMouseMove = (e) => {
+      onDrag(e);
+    };
+
+    const handleMouseUp = () => {
+      stopDrag();
+    };
+
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, dragStart, setPosition]);
+
+  //Change Handlers
   const handleWidthChange = (e) => {
     setWidth(e.target.value);
   };
@@ -116,13 +149,28 @@ const InteractiveSvg = () => {
               background: 'none',
               border: '2px solid black',
               borderRadius: '68px',
-              padding: '0px',
             }}
           />
         </label>
+        <label>
+          Shape:
+          <select
+            value={shape}
+            onChange={(e) => setShape(e.target.value)}
+            style={{
+              background: 'none',
+              border: '2px solid black',
+              borderRadius: '68px',
+            }}>
+            <option value='rect'>Rectangle</option>
+            <option value='circle'>Circle</option>
+            <option value='ellipse'>Ellipse</option>
+            <option value='line'>Line</option>
+          </select>
+        </label>
       </VStack>
 
-      <svg
+      {/* <svg
         style={{
           position: 'absolute',
           left: position.x,
@@ -133,7 +181,15 @@ const InteractiveSvg = () => {
         width={width}
         height={height}>
         <rect width={width} height={height} fill={color} />
-      </svg>
+      </svg> */}
+      <SvgShape
+        shape={shape}
+        width={width}
+        height={height}
+        color={color}
+        position={position}
+        startDrag={startDrag}
+      />
     </Box>
   );
 };
