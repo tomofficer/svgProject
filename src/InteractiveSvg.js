@@ -13,7 +13,10 @@ import {
   Input,
   Text,
   Center,
+  Tooltip,
+  IconButton,
 } from '@chakra-ui/react';
+import { QuestionIcon } from '@chakra-ui/icons';
 import SvgShape from './SvgShape';
 import Typewriter from 'react-typewriter';
 
@@ -26,8 +29,10 @@ const InteractiveSvg = () => {
   const [isDragging, setIsDragging] = useState(false); //Drag state
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 }); //Default drag
   const [shape, setShape] = useState('rect'); // Default shape
+  const [showHelpIcon, setShowHelpIcon] = useState(false); //Tooltip timeout
 
   //useEffect Variables
+  //Drag And Drop
   useEffect(() => {
     const onDrag = (e) => {
       if (isDragging) {
@@ -56,6 +61,15 @@ const InteractiveSvg = () => {
       document.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isDragging, dragStart, setPosition]);
+
+  //Tooltip Timeout
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowHelpIcon(true);
+    }, 10000); // 10 seconds
+
+    return () => clearTimeout(timer); // Cleanup timeout
+  }, []);
 
   //Change Handlers
   const handleWidthChange = (e) => {
@@ -319,18 +333,6 @@ const InteractiveSvg = () => {
         </Popover>
       </VStack>
 
-      {/* <svg
-        style={{
-          position: 'absolute',
-          left: position.x,
-          top: position.y,
-          cursor: 'move',
-        }}
-        onMouseDown={startDrag}
-        width={width}
-        height={height}>
-        <rect width={width} height={height} fill={color} />
-      </svg> */}
       <SvgShape
         shape={shape}
         width={width}
@@ -339,6 +341,25 @@ const InteractiveSvg = () => {
         position={position}
         startDrag={startDrag}
       />
+
+      {showHelpIcon && (
+        <Tooltip label='You can drag me!' placement='top' hasArrow>
+          <IconButton
+            aria-label='Help'
+            icon={<QuestionIcon />}
+            size='sm'
+            bg='none'
+            color='white'
+            position='absolute'
+            left={position.x + width - 5} // Adjust these values as needed
+            top={position.y - 10}
+            zIndex='tooltip' // Ensures the tooltip is above other elements
+            _hover={{
+              bg: 'none',
+            }}
+          />
+        </Tooltip>
+      )}
     </Box>
   );
 };
