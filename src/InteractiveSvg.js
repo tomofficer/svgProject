@@ -428,13 +428,16 @@ const InteractiveSvg = () => {
           <PopoverContent>
             <PopoverArrow />
             <PopoverCloseButton />
-            <PopoverBody color='black'>
+            <PopoverBody color='black' textAlign='center'>
               <Typewriter key={typewriterKey} typing={2} fontSize='12px'>
                 {
                   'Tell me what to do - you can say something like: Move up, move left, change shape, change color, etc'
                 }
               </Typewriter>
               <Input
+                border='2px solid black'
+                placeholder='Start typing...'
+                mt='10px'
                 value={inputValue}
                 onChange={handleInputChange}
                 onKeyPress={(event) => {
