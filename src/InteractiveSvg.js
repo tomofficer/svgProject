@@ -41,6 +41,7 @@ const InteractiveSvg = () => {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 }); //Default drag
   const [shape, setShape] = useState('rect'); // Default shape
   const [showHelpIcon, setShowHelpIcon] = useState(false); //Tooltip timeout
+  const [hasDragged, setHasDragged] = useState(false); //Tooltip dissapear after drag
 
   //useEffect Variables
   //Drag And Drop
@@ -77,7 +78,7 @@ const InteractiveSvg = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowHelpIcon(true);
-    }, 1000); // 10 seconds
+    }, 5000); // 5 seconds
 
     return () => clearTimeout(timer); // Cleanup timeout
   }, []);
@@ -106,6 +107,7 @@ const InteractiveSvg = () => {
       y: e.clientY - position.y,
     });
     setIsDragging(true);
+    handleDrag();
   };
 
   const onDrag = useCallback(
@@ -122,6 +124,10 @@ const InteractiveSvg = () => {
 
   const stopDrag = () => {
     setIsDragging(false);
+  };
+
+  const handleDrag = () => {
+    setHasDragged(true);
   };
 
   //Move Handlers
@@ -225,7 +231,9 @@ const InteractiveSvg = () => {
       onMouseMove={onDrag}
       onMouseUp={stopDrag}
       onMouseLeave={stopDrag}
-      fontFamily='Poppins'>
+      fontFamily='Poppins'
+      fontSize='16px'
+      fontWeight='500'>
       <VStack
         backdropFilter='blur(10px)'
         align='center'
@@ -275,7 +283,7 @@ const InteractiveSvg = () => {
         </HStack>
 
         <Center>
-          <HStack fontSize='20px' spacing='30px'>
+          <HStack spacing='30px'>
             <label>
               <span style={{ marginRight: '10px' }}>Width:</span>
               <input
@@ -300,7 +308,7 @@ const InteractiveSvg = () => {
           </HStack>
         </Center>
 
-        <HStack fontSize='20px' spacing='40px' mt='5px'>
+        <HStack spacing='40px' mt='5px'>
           <label>
             <span style={{ marginRight: '10px' }}>X Position:</span>
             <input
@@ -336,7 +344,7 @@ const InteractiveSvg = () => {
         </HStack>
 
         <Center>
-          <HStack fontSize='20px' spacing='40px' mt='10px'>
+          <HStack spacing='40px' mt='10px'>
             <label>
               <span style={{ marginRight: '10px' }}>Shape:</span>
               <select
@@ -397,7 +405,7 @@ const InteractiveSvg = () => {
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverBody color='black'>
-              <Typewriter key={typewriterKey} typing={2}>
+              <Typewriter key={typewriterKey} typing={2} fontSize='12px'>
                 {
                   'Tell me what to do - you can say something like: Move up, Move right, Move left, Move down...'
                 }
@@ -430,24 +438,23 @@ const InteractiveSvg = () => {
         startDrag={startDrag}
       />
 
-      {/* {!isDragging && (
-        <Tooltip label='You can drag me!' placement='top' hasArrow>
+      {showHelpIcon && !hasDragged && (
+        <Tooltip label='Try dragging me!' placement='top' hasArrow>
           <IconButton
             aria-label='Help'
             icon={<QuestionIcon />}
-            size='sm'
+            size='lg'
             bg='none'
             color='white'
             position='absolute'
             left={iconPosition.left}
             top={iconPosition.top}
-            zIndex='tooltip' // Ensures the tooltip is above other elements
-            _hover={{
-              bg: 'none',
-            }}
+            zIndex='tooltip'
+            _hover={{ bg: 'none' }}
+            onMouseDown={handleDrag}
           />
         </Tooltip>
-      )} */}
+      )}
     </Box>
   );
 };
