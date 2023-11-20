@@ -44,6 +44,7 @@ const AltUI = () => {
   const [shape, setShape] = useState('rect'); // Default shape
   const [showHelpIcon, setShowHelpIcon] = useState(false); //Tooltip timeout
   const [hasDragged, setHasDragged] = useState(false); //Tooltip dissapear after drag
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false); //Popover open tracking
 
   //useEffect Variables
   //Drag And Drop
@@ -188,6 +189,17 @@ const AltUI = () => {
       default:
         break;
     }
+  };
+
+  //Popover Management Handlers
+  const handlePopoverOpen = () => {
+    setIsPopoverOpen(true);
+    resetTypewriter();
+  };
+
+  const handlePopoverClose = () => {
+    setIsPopoverOpen(false);
+    resetTypewriter();
   };
 
   //Random color generator for color command
@@ -404,15 +416,15 @@ const AltUI = () => {
         </Center>
 
         <Popover
-          onOpen={resetTypewriter}
-          onClose={resetTypewriter}
+          onOpen={handlePopoverOpen}
+          onClose={handlePopoverClose}
           placement='top'>
           <PopoverTrigger>
             <Button
               mt='20px'
               py='20px'
               px='60px'
-              bg='black'
+              bg={isPopoverOpen ? '#0275ff' : 'black'}
               borderRadius='15px'
               color='white'
               _hover={{ bg: '#0275ff' }}
