@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Center } from '@chakra-ui/react';
 import AltUI from './AltUI';
-import bg from '../src/imgAssets/bg.jpg';
 
 const AltHome = () => {
   return (

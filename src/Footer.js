@@ -9,7 +9,7 @@ const Footer = () => {
         w='100vw'
         pos='absolute'
         bottom='0'
-        color='gray.400'>
+        color='gray.500'>
         <Center>
           <Text>© Tom Officer Web Dev 2023</Text>
         </Center>

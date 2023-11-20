@@ -1,12 +1,12 @@
-import Header from './Header';
-import Home from './Home';
+import AltHeader from './AltHeader';
+import AltHome from './AltHome';
 import Footer from './Footer';
 
 const AltLanding = () => {
   return (
     <>
-      <Header />
-      <Home />
+      <AltHeader />
+      <AltHome />
       <Footer />
     </>
   );
