@@ -31,6 +31,8 @@ const pulseAnimation = keyframes`
   100% { transform: scale(1); }
 `;
 
+const shapes = ['rect', 'circle', 'ellipse', 'line']; // Add more shapes as needed
+
 const InteractiveSvg = () => {
   //State Variables
   const [width, setWidth] = useState(100); // Default width
@@ -161,26 +163,26 @@ const InteractiveSvg = () => {
 
   //Text Command Options
   const movementOptions = [
-    'Move left',
-    'Move right',
-    'Move up',
-    'Move down',
-    'Change color',
+    'move left',
+    'move right',
+    'move up',
+    'move down',
+    'change shape',
   ];
 
   //Text Command Handler
   const handleMovementOption = (option) => {
     switch (option) {
-      case 'Move left':
+      case 'move left':
         moveLeft();
         break;
-      case 'Move right':
+      case 'move right':
         moveRight();
         break;
-      case 'Move up':
+      case 'move up':
         moveUp();
         break;
-      case 'Move down':
+      case 'move down':
         moveDown();
         break;
       default:
@@ -204,8 +206,18 @@ const InteractiveSvg = () => {
 
   //Input Submit Handler
   const handleInputSubmit = () => {
-    if (movementOptions.includes(inputValue)) {
-      handleMovementOption(inputValue);
+    //Ignore case sensitivity
+    const formattedInput = inputValue.toLowerCase();
+
+    if (formattedInput === 'change shape') {
+      setShape((currentShape) => {
+        const currentShapeIndex = shapes.indexOf(currentShape.toLowerCase());
+        const nextShapeIndex = (currentShapeIndex + 1) % shapes.length;
+        return shapes[nextShapeIndex];
+      });
+      setInputValue('');
+    } else if (movementOptions.includes(formattedInput)) {
+      handleMovementOption(formattedInput); // Use formattedInput here
       setInputValue('');
     } else {
       setShowError(true);
