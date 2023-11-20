@@ -1,6 +1,6 @@
-import AltHeader from './AltHeader';
-import AltHome from './AltHome';
-import Footer from './Footer';
+import AltHeader from '../AltHeader';
+import AltHome from '../AltHome';
+import Footer from '../Footer';
 
 const AltLanding = () => {
   return (

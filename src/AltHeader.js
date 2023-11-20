@@ -10,11 +10,7 @@ const AltHeader = () => {
   const handleNavigate = () => {
     navigate('/'); // Navigate to '/alt-ui' on click
   };
-  //Image Styling
-  const imgGlow = {
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
-    boxShadow: '0 0 10px 2px rgba(255, 255, 255, 0.6)',
-  };
+
   return (
     <>
       <Box bg='none' pos='absolute' h='70px' w='100vw' px='30px' zIndex='100'>

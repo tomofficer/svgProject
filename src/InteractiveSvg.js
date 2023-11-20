@@ -425,9 +425,9 @@ const InteractiveSvg = () => {
               Tell Me What To Do!
             </Button>
           </PopoverTrigger>
-          <PopoverContent>
+          <PopoverContent mb='10px' pt='20px'>
             <PopoverArrow />
-            <PopoverCloseButton />
+            <PopoverCloseButton color='black' />
             <PopoverBody color='black' textAlign='center'>
               <Typewriter key={typewriterKey} typing={2} fontSize='12px'>
                 {

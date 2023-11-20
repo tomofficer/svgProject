@@ -1,8 +1,8 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
-import Landing from './Landing';
-import AltLanding from './AltLanding';
+import Landing from './pages/Landing';
+import AltLanding from './pages/AltLanding';
 
 function App() {
   return (
