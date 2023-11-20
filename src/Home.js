@@ -1,39 +1,37 @@
 import React from 'react';
-import { Box, Center, Text } from '@chakra-ui/react';
+import { Box, Center } from '@chakra-ui/react';
 import InteractiveSvg from './InteractiveSvg';
 import bg from '../src/imgAssets/bg.jpg';
 
 const Home = () => {
   return (
     <>
-      <Box bg='black'>
+      <Box pos='relative' w='100vw' h='100vh' bg='black'>
+        {/* Separate background layer with opacity */}
         <Box
-          w='100vw'
-          h='100vh'
+          pos='absolute'
+          top='0'
+          left='0'
+          right='0'
+          bottom='0'
           backgroundImage={bg}
           backgroundSize='cover'
-          opacity='75%'
           backgroundPosition='center'
           backgroundRepeat='no-repeat'
+          opacity='75%'
+        />
+        {/* Content without reduced opacity */}
+        <Box
+          pos='relative'
           color='white'
           display='flex'
           justifyContent='center'
-          alignItems='center'>
+          alignItems='center'
+          w='full'
+          h='full'>
           <Center>
             <InteractiveSvg />
           </Center>
-          {/* <Box
-            borderTop='2px solid #03fcc2'
-            backdropFilter='blur(10px)'
-            bg='none'
-            w='100vw'
-            pos='absolute'
-            bottom='0'
-            color='white'>
-            <Center>
-              <Text>© Tom Officer 2023</Text>
-            </Center>
-          </Box> */}
         </Box>
       </Box>
     </>

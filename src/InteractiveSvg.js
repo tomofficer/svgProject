@@ -221,7 +221,11 @@ const InteractiveSvg = () => {
   };
 
   return (
-    <Box onMouseMove={onDrag} onMouseUp={stopDrag} onMouseLeave={stopDrag}>
+    <Box
+      onMouseMove={onDrag}
+      onMouseUp={stopDrag}
+      onMouseLeave={stopDrag}
+      fontFamily='Poppins'>
       <VStack
         backdropFilter='blur(10px)'
         align='center'
@@ -271,7 +275,7 @@ const InteractiveSvg = () => {
         </HStack>
 
         <Center>
-          <HStack>
+          <HStack fontSize='20px' spacing='30px'>
             <label>
               <span style={{ marginRight: '10px' }}>Width:</span>
               <input
@@ -296,7 +300,7 @@ const InteractiveSvg = () => {
           </HStack>
         </Center>
 
-        <HStack>
+        <HStack fontSize='20px' spacing='40px' mt='5px'>
           <label>
             <span style={{ marginRight: '10px' }}>X Position:</span>
             <input
@@ -332,21 +336,7 @@ const InteractiveSvg = () => {
         </HStack>
 
         <Center>
-          <HStack>
-            <label>
-              <span style={{ marginRight: '10px' }}>Color:</span>
-              <input
-                type='color'
-                value={color}
-                onChange={handleColorChange}
-                style={{
-                  background: 'none',
-                  border: '2px solid #03fcc2',
-                  borderRadius: '15px',
-                  padding: '5px',
-                }}
-              />
-            </label>
+          <HStack fontSize='20px' spacing='40px' mt='10px'>
             <label>
               <span style={{ marginRight: '10px' }}>Shape:</span>
               <select
@@ -364,13 +354,32 @@ const InteractiveSvg = () => {
                 <option value='line'>Line</option>
               </select>
             </label>
+            <label>
+              <span style={{ marginRight: '10px' }}>Color:</span>
+              <input
+                type='color'
+                value={color}
+                onChange={handleColorChange}
+                style={{
+                  background: 'none',
+                  border: '2px solid #03fcc2',
+                  borderRadius: '15px',
+                  width: '100px',
+                  height: '43px',
+                  padding: '7px',
+                }}
+              />
+            </label>
           </HStack>
         </Center>
 
-        <Popover onOpen={resetTypewriter} onClose={resetTypewriter}>
+        <Popover
+          onOpen={resetTypewriter}
+          onClose={resetTypewriter}
+          placement='top'>
           <PopoverTrigger>
             <Button
-              mt='30px'
+              mt='20px'
               py='20px'
               px='60px'
               bg='none'

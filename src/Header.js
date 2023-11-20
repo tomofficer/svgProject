@@ -1,5 +1,5 @@
-import { Box, Image, HStack, Spacer } from '@chakra-ui/react';
-import lectra from '../src/imgAssets/lectra.png';
+import { Box, Image, HStack, Spacer, Button } from '@chakra-ui/react';
+import lectra from '../src/imgAssets/lectranew.png';
 import gerber from '../src/imgAssets/gerber.png';
 
 const Header = () => {
@@ -10,11 +10,16 @@ const Header = () => {
   };
   return (
     <>
-      <Box bg='none' pos='absolute' h='60px' w='100vw' px='50px'>
+      <Box bg='none' pos='absolute' h='70px' w='100vw' px='30px' zIndex='100'>
         <HStack justify='space-between' w='full' h='full'>
-          <Image maxH='40px' maxW='120px' src={lectra} style={imgGlow} />
+          <Image maxH='40px' maxW='120px' src={lectra} />
           <Spacer />
-          <Image maxH='40px' src={gerber} style={imgGlow} />
+          <Button
+            _hover={{
+              transform: 'scale(0.96)',
+            }}>
+            Switch UI
+          </Button>
         </HStack>
       </Box>
     </>

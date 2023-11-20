@@ -4,15 +4,12 @@ const Footer = () => {
   return (
     <>
       <Box
-        borderTop='1px solid white'
-        // borderTop='2px solid #03fcc2'
-        py='3px'
         backdropFilter='blur(10px)'
-        bg='black'
+        bg='none'
         w='100vw'
-        // pos='absolute'
-        // bottom='0'
-        color='white'>
+        pos='absolute'
+        bottom='0'
+        color='gray.400'>
         <Center>
           <Text>© Tom Officer Web Dev 2023</Text>
         </Center>
