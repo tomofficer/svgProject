@@ -190,6 +190,14 @@ const InteractiveSvg = () => {
     }
   };
 
+  //Random color generator for color command
+  const generateRandomColor = () => {
+    const randomColor = Math.floor(Math.random() * 16777215)
+      .toString(16)
+      .padStart(6, '0');
+    return `#${randomColor}`;
+  };
+
   //Input Value
   const [inputValue, setInputValue] = useState('');
 
@@ -206,7 +214,7 @@ const InteractiveSvg = () => {
 
   //Input Submit Handler
   const handleInputSubmit = () => {
-    //Ignore case sensitivity
+    //Ignore case sensitivity for better UX
     const formattedInput = inputValue.toLowerCase();
 
     if (formattedInput === 'change shape') {
@@ -215,6 +223,10 @@ const InteractiveSvg = () => {
         const nextShapeIndex = (currentShapeIndex + 1) % shapes.length;
         return shapes[nextShapeIndex];
       });
+      setInputValue('');
+    } else if (formattedInput === 'change color') {
+      const newColor = generateRandomColor();
+      setColor(newColor); // Assuming setColor is your state setter for the color
       setInputValue('');
     } else if (movementOptions.includes(formattedInput)) {
       handleMovementOption(formattedInput); // Use formattedInput here
@@ -232,7 +244,7 @@ const InteractiveSvg = () => {
     setTypewriterKey((prevKey) => prevKey + 1);
   };
 
-  // Calculate the position of the "?" icon
+  // Calculate the position of the "?" icon for tooltip
   const iconPosition = {
     left: position.x + width - 10, // Adjust based on the current width of the SVG
     top: position.y - 10, // Adjust based on the current position of the SVG
@@ -410,7 +422,7 @@ const InteractiveSvg = () => {
               css={{
                 animation: `${pulseAnimation} 3.5s ease-in-out infinite`,
               }}>
-              Tell Me Where To Move!
+              Tell Me What To Do!
             </Button>
           </PopoverTrigger>
           <PopoverContent>
@@ -419,7 +431,7 @@ const InteractiveSvg = () => {
             <PopoverBody color='black'>
               <Typewriter key={typewriterKey} typing={2} fontSize='12px'>
                 {
-                  'Tell me what to do - you can say something like: Move up, Move right, Move left, Move down...'
+                  'Tell me what to do - you can say something like: Move up, move left, change shape, change color, etc'
                 }
               </Typewriter>
               <Input
